@@ -36,3 +36,6 @@
 
 # C++ build dir
 build/
+
+# MacOS
+.DS_Store
