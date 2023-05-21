@@ -27,8 +27,8 @@ message(STATUS "Installing glad")
 add_subdirectory(external/glad)
 
 
-add_executable(chip8 src/main.cpp src/window.cpp src/shader.cpp src/renderer.cpp
-    src/resource_manager.cpp src/texture.cpp src/chip8.cpp)
+add_executable(chip8 src/main.cpp src/window.cpp src/renderer.cpp
+    src/asset.cpp src/chip8.cpp)
 
 target_link_libraries(chip8 glfw glm fmt Glad)
 

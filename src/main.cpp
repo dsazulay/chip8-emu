@@ -1,10 +1,7 @@
-#include <cstdint>
 #include <array>
 #include <chrono>
 #include <thread>
 #include <span>
-
-#include <fmt/core.h>
 
 #include "window.h"
 #include "renderer.h"
@@ -35,7 +32,7 @@ auto main() -> int
     chip8.cpuReset();
     chip8.loadROM(FILE_NAME);
 
-    Renderer renderer(screen.data());
+    Renderer renderer(SCREEN_WIDTH, SCREEN_HEIGHT);
     
     while (!window.shouldClose())
     {
