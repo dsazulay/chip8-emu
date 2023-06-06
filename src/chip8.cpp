@@ -44,7 +44,7 @@ auto Chip8::loadROM(std::string_view filename) -> void
 
 auto Chip8::tick() -> void
 {
-    int instructionsPerFrame = 6;
+    const int instructionsPerFrame = 8;
     for (int i = 0; i < instructionsPerFrame; i++)
         decodeOpcode(getNextOpcode());
 
@@ -168,7 +168,6 @@ auto Chip8::decodeOpcode(uint16_t opcode) -> void
             PC = (opcode & 0x0FFF) + V.at(0);
             break;
         case 0xC000:
-            fmt::print("random\n");
             V.at(x) = uniformDistribution(randomEngine) & (opcode & 0x00FF);
             break;
         case 0xD000:
@@ -253,7 +252,6 @@ auto Chip8::drawSprite(uint8_t x, uint8_t y, uint8_t n) -> void
             uint8_t bit = (byte >> xPixel) & 0x1;
             auto pos = ((yLine + y) % SCREEN_HEIGHT) * SCREEN_WIDTH +
                 ((7 - xPixel) + x) % SCREEN_WIDTH;
-            //uint8_t& pixel = gfx.at((yLine + y) % SCREEN_HEIGHT).at(((7 - xPixel) + x) % SCREEN_WIDTH);
 
             uint8_t& pixel = gfx.at(pos);
             if (bit == 1 && pixel == 1)
@@ -279,24 +277,23 @@ auto Chip8::debugDraw() -> void
 
 auto Chip8::waitKeyPress() -> uint8_t
 {
-    while (true)
+    const int nkeys = 16;
+    for (int i = 0; i < nkeys; i++)
     {
-        for (int i = 0; i < 16; i++)
-        {
-            if (key.at(i))
-                return i;
-        }
+        if (key.at(i))
+            return i;
     }
+    return -1;
 }
 
 auto Chip8::keyPressed(int k) -> void
 {
-    key[k] = 1;
+    key.at(k) = 1;
 }
 
 auto Chip8::keyReleased(int k) -> void
 {
-    key[k] = 0;
+    key.at(k) = 0;
 }
 
 auto Chip8::shouldItDraw() -> bool
