@@ -6,23 +6,18 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
 
-# GLFW
+# glfw
 set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL "GLFW lib only" FORCE)
 set(GLFW_BUILD_TESTS OFF CACHE BOOL "GLFW lib only" FORCE)
 set(GLFW_BUILD_DOCS OFF CACHE BOOL "GLFW lib only" FORCE)
 message(STATUS "Installing glfw via submodule")
 add_subdirectory(external/glfw)
 
-# glm
-message(STATUS "Installing glm via submodule")
-set(BUILD_STATIC_LIBS ON)
-add_subdirectory(external/glm)
-
-#fmt
+# fmt
 message(STATUS "Installing fmt via submodules")
 add_subdirectory(external/fmt)
 
-# Glad
+# glad
 message(STATUS "Installing glad")
 add_subdirectory(external/glad)
 
@@ -30,6 +25,6 @@ add_subdirectory(external/glad)
 add_executable(chip8 src/main.cpp src/window.cpp src/renderer.cpp
     src/asset.cpp src/chip8.cpp)
 
-target_link_libraries(chip8 glfw glm fmt Glad)
+target_link_libraries(chip8 glfw fmt Glad)
 
 target_compile_options(chip8 PRIVATE -Wall -Wextra)
