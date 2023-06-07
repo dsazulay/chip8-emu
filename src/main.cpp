@@ -3,12 +3,16 @@
 #include <thread>
 #include <span>
 
+#include <fmt/core.h>
+
 #include "window.h"
 #include "renderer.h"
 #include "chip8.h"
 
-constexpr const char* FILE_NAME = "../data/space_invaders.ch8";
 std::array<uint8_t, SCREEN_WIDTH * SCREEN_HEIGHT * 4> screen;
+
+const int WIDTH = 640;
+const int HEIGHT = 320;
 
 auto updateScreen(std::span<uint8_t> chip8screen) -> void
 {
@@ -16,21 +20,27 @@ auto updateScreen(std::span<uint8_t> chip8screen) -> void
     {
         for (int j = 0; j < SCREEN_WIDTH; j++)
         {
-            int index = (i * 64 + j) * 4;
+            int index = (i * SCREEN_WIDTH + j) * 4;
             screen[index] = screen[index + 1] = screen[index + 2] = chip8screen[(31 - i) * SCREEN_WIDTH + j] * 255;
             screen[index + 3] = 0xff; 
         }
     }
 }
 
-auto main() -> int
+auto main(int argc, char** argv) -> int
 {
+    if (argc != 2)
+    {
+        fmt::print("Usage: ./chip8 <rom>\n");
+        return 0;
+    }
+
     Window window;
-    window.createWindow(640, 320, "Chip 8 Emulator");
+    window.createWindow(WIDTH, HEIGHT, "Chip 8 Emulator");
     
     Chip8 chip8;
     chip8.cpuReset();
-    chip8.loadROM(FILE_NAME);
+    chip8.loadROM(argv[1]);
 
     Renderer renderer(SCREEN_WIDTH, SCREEN_HEIGHT);
     
