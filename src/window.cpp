@@ -2,7 +2,6 @@
 
 //#include "dispatcher.h"
 //#include "event.h"
-//#include "utils/log.h"
 //#include "keycodes.h"
 
 int Window::keyPressed = -1;

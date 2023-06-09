@@ -26,12 +26,16 @@ auto Renderer::loadAssets() -> void
 
 auto Renderer::setUniformsAndBindVao() -> void
 {
+    const float r = 0.22f;
+    const float g = 0.49f;
+    const float b = 0.30f;
+
     glActiveTexture(GL_TEXTURE0);
     m_texture->bind();
 
     m_shader->use();
     m_shader->setInt("u_main_tex", 0);
-    m_shader->setVec3("u_tint", 0.22f, 0.49f, 0.3f);
+    m_shader->setVec3("u_tint", r, g, b);
 
     glBindVertexArray(m_model->vao());
 }
@@ -50,6 +54,6 @@ auto Renderer::renderScreen() -> void
 
 auto Renderer::clear() -> void
 {
-    glClearColor(0.22f, 0.49f, 0.3f, 1.0f);
+    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
 }

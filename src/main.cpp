@@ -35,6 +35,11 @@ auto main(int argc, char** argv) -> int
         return 0;
     }
 
+    constexpr const double fps = 60.0;
+    constexpr const double idleFps = 5.0;
+    constexpr std::chrono::duration<double, std::milli> frameTime(1000 / fps);
+    constexpr std::chrono::duration<double, std::milli> idleFrameTime(1000 / idleFps);
+
     Window window;
     window.createWindow(WIDTH, HEIGHT, "Chip 8 Emulator");
     
@@ -46,12 +51,12 @@ auto main(int argc, char** argv) -> int
     
     while (!window.shouldClose())
     {
-        auto target_fps = std::chrono::steady_clock::now() + std::chrono::milliseconds(14);
+        auto target_fps = std::chrono::steady_clock::now() + frameTime;
         if (!window.isFocused())
         {
             window.pollEvents();
             // Limit fps when out of focus
-            target_fps += std::chrono::milliseconds(140);
+            target_fps += idleFrameTime;
             std::this_thread::sleep_until(target_fps);
             continue;
         }
